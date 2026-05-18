@@ -9,15 +9,15 @@ public class ConfiguracaoIluminacao : MonoBehaviour
 {
     [Header("Luz Direcional (Sol)")]
     [Tooltip("Intensidade da luz direcional")]
-    public float intensidadeSol    = 1.2f;
+    public float intensidadeSol    = 0.7f;
     [Tooltip("Cor da luz direcional — branco quente é mais bonito")]
-    public Color corSol            = new Color(1f, 0.96f, 0.88f, 1f); // branco levemente quente
+    public Color corSol            = new Color(0.95f, 0.92f, 0.85f, 1f); // branco levemente quente, menos saturado
     [Tooltip("Rotação da luz (ângulo do sol)")]
     public Vector3 rotacaoSol      = new Vector3(50f, -30f, 0f);
 
     [Header("Luz Ambiente (preenche sombras)")]
     [Tooltip("Cor da luz ambiente — cinza médio evita sombras completamente pretas")]
-    public Color corAmbiente       = new Color(0.35f, 0.35f, 0.40f, 1f);
+    public Color corAmbiente       = new Color(0.30f, 0.30f, 0.35f, 1f);
 
     [Header("Neblina (opcional — dá profundidade)")]
     public bool  usarNeblina       = true;
@@ -32,6 +32,7 @@ public class ConfiguracaoIluminacao : MonoBehaviour
         ConfigurarAmbiente();
         GarantirLuzDirecional();
         ConfigurarNeblina();
+        OcultarGizmosDaCena();
     }
 
     void ConfigurarAmbiente()
@@ -54,6 +55,7 @@ public class ConfiguracaoIluminacao : MonoBehaviour
 
         // Cria uma nova Directional Light leve
         GameObject sol = new GameObject("Sol_Direcional");
+        sol.hideFlags = HideFlags.HideInHierarchy; // Esconde do Hierarchy e não aparece durante play
         sol.transform.rotation = Quaternion.Euler(rotacaoSol);
 
         Light luz = sol.AddComponent<Light>();
@@ -80,6 +82,14 @@ public class ConfiguracaoIluminacao : MonoBehaviour
         RenderSettings.fogMode      = FogMode.ExponentialSquared; // suave e bonita
         RenderSettings.fogColor     = corNeblina;
         RenderSettings.fogDensity   = densidadeNeblina;
+    }
+
+    void OcultarGizmosDaCena()
+    {
+        // Esconde a câmera principal para não mostrar o gizmo (retângulo do frustum)
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+            mainCam.gameObject.hideFlags = HideFlags.HideInHierarchy;
     }
 
 #if UNITY_EDITOR
