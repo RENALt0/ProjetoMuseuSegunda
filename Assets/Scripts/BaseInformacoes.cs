@@ -56,7 +56,7 @@ public class BaseInformacoes : MonoBehaviour
 
         DetectarCursor();
 
-        if (jogadorPerto && (Input.GetKeyDown(teclaLeitura) || Input.GetMouseButtonDown(0)))
+        if (jogadorPerto && Input.GetKeyDown(teclaLeitura))
         {
             if (LeituraUI.Instancia != null)
                 LeituraUI.Instancia.AbrirLeitura(textoLeitura, corDoTextoLido);
