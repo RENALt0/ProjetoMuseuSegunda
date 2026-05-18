@@ -64,8 +64,12 @@ public class LeituraUI : MonoBehaviour
         EstaLendo = false;
 
         if (funcoesPlayer != null) funcoesPlayer.enabled = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible   = false;
+        
+        if (!Application.isMobilePlatform && ControlesMobile.Instancia == null)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible   = false;
+        }
     }
 
     // ───────────────────────────────────────────────────────────────────────────

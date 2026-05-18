@@ -146,8 +146,11 @@ public class InspecaoObjeto : MonoBehaviour
         EstaInspecionando   = false;
         camInspecao.enabled = false;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible   = false;
+        if (!Application.isMobilePlatform && ControlesMobile.Instancia == null)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible   = false;
+        }
 
         if (funcoesPlayer != null) funcoesPlayer.enabled = true;
         if (pivo != null) { Destroy(pivo); pivo = null; copiaObjeto = null; }
