@@ -1,0 +1,13 @@
+#
+# Wavefront material file
+# Created in RealityCapture
+# Engine version v1.3.2.117357
+#
+
+newmtl 00357_Model_10
+Ka 1 1 1
+Kd 1 1 1
+d 1
+Ns 0
+illum 1
+map_Kd 00357_Model_10_u0_v0_diffuse.jpg

@@ -1,0 +1,16 @@
+# Blender MTL File: 'Grrek_Helmet_01.blend'
+# Material Count: 1
+
+newmtl map_GreekHelmet01
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.017155 0.043768
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Grrek_Helmet_low_map_GreekHelmet01_Normal_OpenGL.png
+map_Kd Grrek_Helmet_low_map_GreekHelmet01_BaseColor.png
+map_Ns Grrek_Helmet_low_map_GreekHelmet01_Roughness.png
+refl Grrek_Helmet_low_map_GreekHelmet01_Metallic.png
