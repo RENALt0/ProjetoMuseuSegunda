@@ -17,6 +17,9 @@ public class ControlesMobile : MonoBehaviour
 
     public bool CorridaPressionada { get; private set; }
 
+    private bool puloIMGUI;
+    private bool correrIMGUI;
+
     [Header("Configurações do Joystick")]
     public float tamanhoJoystick = 150f;
     public float raioMovimento = 50f;
@@ -57,9 +60,21 @@ public class ControlesMobile : MonoBehaviour
         PuloPressionadoDown = puloAtual && !puloAnterior;
         puloAnterior = puloAtual;
 
+        // Reseta as flags manuais de toque dos botões (para não conflitar com IMGUI)
+        bool puloToque = false;
+        bool corridaToque = false;
+
         foreach (Touch toque in Input.touches)
         {
             ProcessarToque(toque.fingerId, toque.position, toque.phase);
+
+            // Verifica manualmente se o toque está sobre os botões
+            if (_btnTamanhoCache > 0f)
+            {
+                Vector2 posGui = new Vector2(toque.position.x, Screen.height - toque.position.y);
+                if (_rectPulo.Contains(posGui)) puloToque = true;
+                if (_rectCorrer.Contains(posGui)) corridaToque = true;
+            }
         }
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -77,6 +92,11 @@ public class ControlesMobile : MonoBehaviour
             ProcessarToque(99, Input.mousePosition, TouchPhase.Ended);
         }
 #endif
+
+        // Combina o resultado do touch manual com o que vier do OnGUI
+        // Isso resolve o bug do IMGUI não suportar múltiplos toques (Multi-touch) no celular
+        puloAtual = puloIMGUI || puloToque;
+        CorridaPressionada = correrIMGUI || corridaToque;
     }
 
     private void ProcessarToque(int fingerId, Vector2 position, TouchPhase phase)
@@ -181,8 +201,8 @@ public class ControlesMobile : MonoBehaviour
             estiloPulo.fontStyle = FontStyle.Bold;
         }
 
-        puloAtual          = GUI.RepeatButton(_rectPulo,   "PULAR",  estiloPulo);
-        CorridaPressionada = GUI.RepeatButton(_rectCorrer, "CORRER", estiloPulo);
+        puloIMGUI   = GUI.RepeatButton(_rectPulo,   "PULAR",  estiloPulo);
+        correrIMGUI = GUI.RepeatButton(_rectCorrer, "CORRER", estiloPulo);
     }
 
     private Texture2D CriarTexturaCircular(Color cor)
