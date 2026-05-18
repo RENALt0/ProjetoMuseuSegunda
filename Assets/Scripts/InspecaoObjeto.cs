@@ -117,6 +117,11 @@ public class InspecaoObjeto : MonoBehaviour
             m.enabled = false;
         foreach (var r in copiaObjeto.GetComponentsInChildren<Renderer>())
             r.enabled = true;
+            
+        // Muito importante: se o objeto original for Static (para otimização de FPS),
+        // o clone NÃO pode ser, senão não conseguiremos girá-lo na tela!
+        foreach (var t in copiaObjeto.GetComponentsInChildren<Transform>(true))
+            t.gameObject.isStatic = false;
 
         // ── Pivô: ponto de rotação exatamente no centro geométrico ──────────────
         Bounds b = CalcularBounds(copiaObjeto);
